@@ -7,6 +7,8 @@ export async function GET() {
     const { rows } = await sql`SELECT * from test;`;
     return NextResponse.json({ data: rows }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    // Adiciona uma verificação para garantir que 'error' tenha uma propriedade 'message'
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
